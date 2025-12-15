@@ -106,7 +106,7 @@ Add pagination on 'top' or 'bottom' (top and bottom) of the table (default posit
 
 type: `Integer (default: 10)`
 
-Number of rows to show per page
+Number of rows to show per page. This option can be set to -1 to show all rows.
 ```html
 <vue-good-table
   :columns="columns"
