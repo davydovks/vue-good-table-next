@@ -1,5 +1,5 @@
 /*!
-  * @davydovks/vue-good-table-next v0.2.3
+  * @davydovks/vue-good-table-next v0.2.4
   * (c) 2026-present Konstantin Davydov <davydovks@gmail.com>
   * (c) 2021-2024 Boris Flesch <boris@singlequote.net>
   * (c) 2017-2021 xaksis <shay@crayonbits.com>
@@ -2413,7 +2413,7 @@ const _sfc_main$6 = {
         lastRecordOnPage: last,
         totalRecords: this.totalRecords,
         currentPage: this.currentPage,
-        totalPages: this.lastPage,
+        totalPage: this.lastPage,
       };
     },
   },
@@ -2495,8 +2495,11 @@ const _sfc_main$5 = {
     customRowsPerPageDropdown: { default() { return []; } },
     paginateDropdownAllowAll: { default: true },
     mode: { default: PAGINATION_MODES.Records },
+    jumpFirstOrLast: { default: false },
 
     // text options
+    firstText: { default: "First" },
+    lastText: { default: "Last" },
     nextText: { default: 'Next' },
     prevText: { default: 'Prev' },
     rowsPerPageText: { default: 'Rows per page:' },
@@ -2533,7 +2536,9 @@ const _sfc_main$5 = {
 
     total: {
       handler(newValue, oldValue) {
-        if(this.rowsPerPageOptions.indexOf(this.currentPerPage) === -1) {
+        if (this.currentPerPage === -1) return;
+
+        if (this.rowsPerPageOptions.indexOf(this.currentPerPage) === -1) {
           this.currentPerPage = newValue;
         }
       }
@@ -2551,6 +2556,16 @@ const _sfc_main$5 = {
       const remainder = this.total % this.currentPerPage;
 
       return remainder === 0 ? quotient : quotient + 1;
+    },
+
+    // Can go to first page
+    firstIsPossible() {
+      return this.currentPage > 1;
+    },
+
+    // Can go to last page
+    lastIsPossible() {
+      return this.currentPage < this.pagesCount;
     },
 
     // Can go to next page
@@ -2574,6 +2589,24 @@ const _sfc_main$5 = {
         this.prevPage = this.currentPage;
         this.currentPage = pageNumber;
         this.pageChanged(emit);
+      }
+    },
+
+    // Go to first page
+    firstPage() {
+      if (this.firstIsPossible) {
+        this.prevPage = this.currentPage;
+        this.currentPage = 1;
+        this.pageChanged();
+      }
+    },
+
+    // Go to last page
+    lastPage() {
+      if (this.lastIsPossible) {
+        this.prevPage = this.currentPage;
+        this.currentPage = this.pagesCount;
+        this.pageChanged();
       }
     },
 
@@ -2715,11 +2748,26 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
         "info-fn": $props.infoFn,
         mode: $props.mode
       }, null, 8 /* PROPS */, ["onPageChanged", "total-records", "last-page", "current-page", "current-per-page", "of-text", "page-text", "info-fn", "mode"]),
+      ($props.jumpFirstOrLast)
+        ? (vue.openBlock(), vue.createElementBlock("button", {
+            key: 0,
+            type: "button",
+            "aria-controls": "vgt-table",
+            class: vue.normalizeClass(["footer__navigation__page-btn", { disabled: !$options.firstIsPossible }]),
+            onClick: _cache[2] || (_cache[2] = vue.withModifiers((...args) => ($options.firstPage && $options.firstPage(...args)), ["prevent","stop"]))
+          }, [
+            vue.createElementVNode("span", {
+              "aria-hidden": "true",
+              class: vue.normalizeClass(["chevron", { left: !$props.rtl, right: $props.rtl }])
+            }, null, 2 /* CLASS */),
+            vue.createElementVNode("span", null, vue.toDisplayString($props.firstText), 1 /* TEXT */)
+          ], 2 /* CLASS */))
+        : vue.createCommentVNode("v-if", true),
       vue.createElementVNode("button", {
         type: "button",
         "aria-controls": "vgt-table",
         class: vue.normalizeClass(["footer__navigation__page-btn", { disabled: !$options.prevIsPossible }]),
-        onClick: _cache[2] || (_cache[2] = vue.withModifiers((...args) => ($options.previousPage && $options.previousPage(...args)), ["prevent","stop"]))
+        onClick: _cache[3] || (_cache[3] = vue.withModifiers((...args) => ($options.previousPage && $options.previousPage(...args)), ["prevent","stop"]))
       }, [
         vue.createElementVNode("span", {
           "aria-hidden": "true",
@@ -2731,14 +2779,29 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
         type: "button",
         "aria-controls": "vgt-table",
         class: vue.normalizeClass(["footer__navigation__page-btn", { disabled: !$options.nextIsPossible }]),
-        onClick: _cache[3] || (_cache[3] = vue.withModifiers((...args) => ($options.nextPage && $options.nextPage(...args)), ["prevent","stop"]))
+        onClick: _cache[4] || (_cache[4] = vue.withModifiers((...args) => ($options.nextPage && $options.nextPage(...args)), ["prevent","stop"]))
       }, [
         vue.createElementVNode("span", null, vue.toDisplayString($props.nextText), 1 /* TEXT */),
         vue.createElementVNode("span", {
           "aria-hidden": "true",
           class: vue.normalizeClass(["chevron", { 'right': !$props.rtl, 'left': $props.rtl }])
         }, null, 2 /* CLASS */)
-      ], 2 /* CLASS */)
+      ], 2 /* CLASS */),
+      ($props.jumpFirstOrLast)
+        ? (vue.openBlock(), vue.createElementBlock("button", {
+            key: 1,
+            type: "button",
+            "aria-controls": "vgt-table",
+            class: vue.normalizeClass(["footer__navigation__page-btn", { disabled: !$options.lastIsPossible }]),
+            onClick: _cache[5] || (_cache[5] = vue.withModifiers((...args) => ($options.lastPage && $options.lastPage(...args)), ["prevent","stop"]))
+          }, [
+            vue.createElementVNode("span", null, vue.toDisplayString($props.lastText), 1 /* TEXT */),
+            vue.createElementVNode("span", {
+              "aria-hidden": "true",
+              class: vue.normalizeClass(["chevron", { right: !$props.rtl, left: $props.rtl }])
+            }, null, 2 /* CLASS */)
+          ], 2 /* CLASS */))
+        : vue.createCommentVNode("v-if", true)
     ])
   ]))
 }
@@ -8953,6 +9016,7 @@ const _sfc_main = {
 					dropdownAllowAll: true,
 					mode: "records", // or pages
 					infoFn: null,
+					jumpFirstOrLast : false,
 				};
 			},
 		},
@@ -8984,6 +9048,8 @@ const _sfc_main = {
 		tableLoading: false,
 
 		// text options
+		firstText: "First",
+		lastText: "Last",
 		nextText: "Next",
 		prevText: "Previous",
 		rowsPerPageText: "Rows per page",
@@ -9507,7 +9573,7 @@ const _sfc_main = {
 		},
 
 		originalRows() {
-			const rows = JSON.parse(JSON.stringify(this.rows));
+			const rows = this.rows && this.rows.length ? JSON.parse(JSON.stringify(this.rows)) : [];
 			let nestedRows = [];
 			if (!this.groupOptions.enabled) {
 				nestedRows = this.handleGrouped([
@@ -10088,6 +10154,8 @@ const _sfc_main = {
 				perPageDropdown,
 				perPageDropdownEnabled,
 				dropdownAllowAll,
+				firstLabel,
+				lastLabel,
 				nextLabel,
 				prevLabel,
 				rowsPerPageLabel,
@@ -10132,6 +10200,14 @@ const _sfc_main = {
 
 			if (typeof mode === "string") {
 				this.paginationMode = mode;
+			}
+
+			if (typeof firstLabel === "string") {
+				this.firstText = firstLabel;
+			}
+
+			if (typeof lastLabel === "string") {
+				this.lastText = lastLabel;
 			}
 
 			if (typeof nextLabel === "string") {
@@ -10368,6 +10444,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
               rtl: $props.rtl,
               total: $props.totalRows || $options.totalRowCount,
               mode: _ctx.paginationMode,
+              jumpFirstOrLast: $props.paginationOptions.jumpFirstOrLast,
+              firstText: _ctx.firstText,
+              lastText: _ctx.lastText,
               nextText: _ctx.nextText,
               prevText: _ctx.prevText,
               rowsPerPageText: _ctx.rowsPerPageText,
@@ -10378,7 +10457,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
               pageText: _ctx.pageText,
               allText: _ctx.allText,
               "info-fn": _ctx.paginationInfoFn
-            }, null, 8 /* PROPS */, ["onPageChanged", "onPerPageChanged", "perPage", "rtl", "total", "mode", "nextText", "prevText", "rowsPerPageText", "perPageDropdownEnabled", "customRowsPerPageDropdown", "paginateDropdownAllowAll", "ofText", "pageText", "allText", "info-fn"])
+            }, null, 8 /* PROPS */, ["onPageChanged", "onPerPageChanged", "perPage", "rtl", "total", "mode", "jumpFirstOrLast", "firstText", "lastText", "nextText", "prevText", "rowsPerPageText", "perPageDropdownEnabled", "customRowsPerPageDropdown", "paginateDropdownAllowAll", "ofText", "pageText", "allText", "info-fn"])
           ])
         : vue.createCommentVNode("v-if", true),
       vue.createVNode(_component_vgt_global_search, {
@@ -10703,6 +10782,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
               rtl: $props.rtl,
               total: $props.totalRows || $options.totalRowCount,
               mode: _ctx.paginationMode,
+              jumpFirstOrLast: $props.paginationOptions.jumpFirstOrLast,
+              firstText: _ctx.firstText,
+              lastText: _ctx.lastText,
               nextText: _ctx.nextText,
               prevText: _ctx.prevText,
               rowsPerPageText: _ctx.rowsPerPageText,
@@ -10713,7 +10795,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
               pageText: _ctx.pageText,
               allText: _ctx.allText,
               "info-fn": _ctx.paginationInfoFn
-            }, null, 8 /* PROPS */, ["onPageChanged", "onPerPageChanged", "perPage", "rtl", "total", "mode", "nextText", "prevText", "rowsPerPageText", "perPageDropdownEnabled", "customRowsPerPageDropdown", "paginateDropdownAllowAll", "ofText", "pageText", "allText", "info-fn"])
+            }, null, 8 /* PROPS */, ["onPageChanged", "onPerPageChanged", "perPage", "rtl", "total", "mode", "jumpFirstOrLast", "firstText", "lastText", "nextText", "prevText", "rowsPerPageText", "perPageDropdownEnabled", "customRowsPerPageDropdown", "paginateDropdownAllowAll", "ofText", "pageText", "allText", "info-fn"])
           ])
         : vue.createCommentVNode("v-if", true)
     ], 2 /* CLASS */)
