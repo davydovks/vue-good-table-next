@@ -1,6 +1,7 @@
 /*!
-  * vue-good-table-next v0.2.2
-  * (c) 2021-present Boris Flesch <boris@singlequote.net>
+  * @davydovks/vue-good-table-next v0.2.3
+  * (c) 2026-present Konstantin Davydov <davydovks@gmail.com>
+  * (c) 2021-2024 Boris Flesch <boris@singlequote.net>
   * (c) 2017-2021 xaksis <shay@crayonbits.com>
   * @license MIT
   */
@@ -2381,6 +2382,10 @@ const _sfc_main$6 = {
       return ((this.currentPage - 1) * this.currentPerPage) + 1;
     },
     lastRecordOnPage() {
+      // if the setting is set to 'all'
+      if(this.currentPerPage === -1) {
+        return this.totalRecords;
+      }
       return Math.min(this.totalRecords, this.currentPage * this.currentPerPage);
     },
     recordInfo() {
@@ -2534,6 +2539,10 @@ const _sfc_main$5 = {
   computed: {
     // Number of pages
     pagesCount() {
+      // if the setting is set to 'all'
+      if(this.currentPerPage === -1) {
+        return 1;
+      }
       const quotient = Math.floor(this.total / this.currentPerPage);
       const remainder = this.total % this.currentPerPage;
 
@@ -2649,7 +2658,10 @@ const _hoisted_2$5 = {
 const _hoisted_3$5 = ["for"];
 const _hoisted_4$5 = ["id"];
 const _hoisted_5$5 = ["value"];
-const _hoisted_6$4 = ["value"];
+const _hoisted_6$4 = {
+  key: 0,
+  value: -1
+};
 const _hoisted_7$4 = { class: "footer__navigation vgt-pull-right" };
 
 function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
@@ -2679,10 +2691,7 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                 }, toDisplayString(option), 9 /* TEXT, PROPS */, _hoisted_5$5))
               }), 128 /* KEYED_FRAGMENT */)),
               ($props.paginateDropdownAllowAll)
-                ? (openBlock(), createElementBlock("option", {
-                    key: 0,
-                    value: $props.total
-                  }, toDisplayString($props.allText), 9 /* TEXT, PROPS */, _hoisted_6$4))
+                ? (openBlock(), createElementBlock("option", _hoisted_6$4, toDisplayString($props.allText), 1 /* TEXT */))
                 : createCommentVNode("v-if", true)
             ], 40 /* PROPS, NEED_HYDRATION */, _hoisted_4$5), [
               [vModelSelect, $data.currentPerPage]
@@ -9456,7 +9465,7 @@ const _sfc_main = {
 				// calculate page end now
 				let pageEnd = paginatedRows.length + 1;
 
-				// if the setting is set to 'all'
+				// if the setting is not set to 'all'
 				if (this.currentPerPage !== -1) {
 					pageEnd = this.currentPage * this.currentPerPage;
 				}
