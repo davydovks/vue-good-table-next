@@ -10,7 +10,8 @@ const name = pkg.name
 
 const banner = `/*!
   * ${pkg.name} v${pkg.version}
-  * (c) 2021-present Boris Flesch <boris@singlequote.net>
+  * (c) 2026-present Konstantin Davydov <davydovks@gmail.com>
+  * (c) 2021-2024 Boris Flesch <boris@singlequote.net>
   * (c) 2017-2021 xaksis <shay@crayonbits.com>
   * @license MIT
   */`

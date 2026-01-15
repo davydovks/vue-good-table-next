@@ -1,15 +1,19 @@
 {
-  "name": "vue-good-table-next",
-  "version": "0.2.2",
+  "name": "@davydovks/vue-good-table-next",
+  "version": "0.2.3",
   "description": "A simple, clean data table for Vue (3.x) with essential features like sorting, column filtering, pagination etc",
   "author": {
-    "name": "boris",
-    "email": "boris@singlequote.net"
+    "name": "Konstantin Davydov",
+    "email": "davydovks@gmail.com"
   },
   "contributors": [
     {
       "name": "xaksis",
       "url": "https://github.com/xaksis"
+    },
+    {
+      "name": "boris",
+      "email": "boris@singlequote.net"
     }
   ],
   "license": "MIT",
@@ -69,7 +73,7 @@
     "table",
     "datatable"
   ],
-  "repository": "github:borisflesch/vue-good-table-next",
+  "repository": "github:davydovks/vue-good-table-next",
   "sideEffects": [
     "*.vue",
     "*.css"

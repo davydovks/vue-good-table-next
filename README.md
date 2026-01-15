@@ -1253,7 +1253,8 @@ You can provide html for empty state slot as well. Example:
 
 ## Authors
 
-* [Boris Flesch](https://github.com/boris-flesch)
+* [Konstantin Davydov](https://github.com/davydovks)
+* [Boris Flesch](https://github.com/boris-flesch) (initial version of Vue-good-table-next for Vue 3.x)
 * [xaksis](https://github.com/xaksis) (initial version of Vue-good-table for Vue 2.x)
 * [Other Contributors](https://github.com/borisflesch/vue-good-table-next/graphs/contributors)
 
