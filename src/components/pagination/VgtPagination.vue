@@ -111,7 +111,9 @@ export default {
 
     total: {
       handler(newValue, oldValue) {
-        if(this.rowsPerPageOptions.indexOf(this.currentPerPage) === -1) {
+        if (this.currentPerPage === -1) return;
+
+        if (this.rowsPerPageOptions.indexOf(this.currentPerPage) === -1) {
           this.currentPerPage = newValue;
         }
       }
