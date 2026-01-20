@@ -1,5 +1,5 @@
 /*!
-  * @davydovks/vue-good-table-next v0.2.4
+  * @davydovks/vue-good-table-next v0.2.5
   * (c) 2026-present Konstantin Davydov <davydovks@gmail.com>
   * (c) 2021-2024 Boris Flesch <boris@singlequote.net>
   * (c) 2017-2021 xaksis <shay@crayonbits.com>
@@ -9658,12 +9658,9 @@ const _sfc_main = {
 
 		handleSearch() {
 			this.resetTable();
-			// for remote mode, we need to emit search
-			if (this.mode === "remote") {
-				this.$emit("search", {
-					searchTerm: this.searchTerm,
-				});
-			}
+			this.$emit("search", {
+				searchTerm: this.searchTerm,
+			});
 		},
 
 		reset() {
