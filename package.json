@@ -1,6 +1,6 @@
 {
   "name": "@davydovks/vue-good-table-next",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "A simple, clean data table for Vue (3.x) with essential features like sorting, column filtering, pagination etc",
   "author": {
     "name": "Konstantin Davydov",
