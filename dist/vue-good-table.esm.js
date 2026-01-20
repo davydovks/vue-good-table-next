@@ -1,5 +1,5 @@
 /*!
-  * @davydovks/vue-good-table-next v0.2.5
+  * @davydovks/vue-good-table-next v0.2.6
   * (c) 2026-present Konstantin Davydov <davydovks@gmail.com>
   * (c) 2021-2024 Boris Flesch <boris@singlequote.net>
   * (c) 2017-2021 xaksis <shay@crayonbits.com>
